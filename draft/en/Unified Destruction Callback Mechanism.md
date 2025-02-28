@@ -28,9 +28,9 @@ Objects will no longer have separate `kill` and `del` callbacks; instead, they w
 
 We will provide several built-in `reason` parameter values and allow users to define custom `reason` parameters for other needs.Here, we assume the built-in `reason` parameter values are as follows:
 
-- `"kill"`: Corresponds to the processing logic when using the `lstg.Kill` function
-- `"del"`: Corresponds to the processing logic when using the `lstg.Del` function
-- `"out-bound"`: Corresponds to the processing logic for object off-screen cleanup
+- `"luastg:calling_the_kill_function"`: Corresponds to the processing logic when using the `lstg.Kill` function
+- `"luastg:calling_the_del_function"`: Corresponds to the processing logic when using the `lstg.Del` function
+- `"luastg:leave_world_border"`: Corresponds to the processing logic for object off-screen cleanup
 - As for the `RawKill` and `RawDel` functions, they will be custom-provided in the script layer.
 
 ### Key Changes
@@ -38,9 +38,9 @@ We will provide several built-in `reason` parameter values and allow users to de
 1. **Unified Function:** Introduce `Destroy(target: lstg.GameObject, reason: string, ...)` as the core destruction function.
 2. **Wrappers:** Redefine existing functions as wrappers:
 
-   - `Kill(target: lstg.GameObject)` → `Destroy(target: lstg.GameObject, "kill")`
-   - `Del(target: lstg.GameObject)` → `Destroy(target: lstg.GameObject, "del")`
-   - Off-screen destruction → `Destroy(target: lstg.GameObject, "out-bound")`
+   - `Kill(target: lstg.GameObject)` → `Destroy(target: lstg.GameObject, "luastg:calling_the_kill_function")`
+   - `Del(target: lstg.GameObject)` → `Destroy(target: lstg.GameObject, "luastg:calling_the_del_function")`
+   - Off-screen destruction → `Destroy(target: lstg.GameObject, "luastg:leave_world_border")`
    - `RawKill(target: lstg.GameObject)` / `RawDel(target: lstg.GameObject)` → Converted to use custom `reason` in the script layer
 3. **Parameterized Callback:** Update the `del` callback to accept a `reason` parameter for handling specific scenario logic.
 
@@ -49,11 +49,11 @@ We will provide several built-in `reason` parameter values and allow users to de
 ```lua
 ---@param reason string @The reason for destruction
 function class:del(reason, ...)
-    if reason == "out-bound" then
+    if reason == "luastg:leave_world_border" then
         -- Handle off-screen destruction
-    elseif reason == "kill" then
+    elseif reason == "luastg:calling_the_kill_function" then
         -- Handle kill-specific logic
-    elseif reason == "del" then
+    elseif reason == "luastg:calling_the_del_function" then
         -- Handle del-specific logic
     end
     -- Common cleanup logic
