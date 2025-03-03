@@ -1,6 +1,6 @@
 # Design Draft: Boss Scene System  
 
-[中文版](../zh/Boss%20Scene%20System.md)  
+[Chinese Version](../zh/Boss%20Scene%20System.md)  
 
 ## Background  
 
@@ -31,6 +31,11 @@ This boss scene system roughly consists of the following components:
 
 1. `Boss Entity`: An instantiated object of `Boss Style`, responsible for rendering the boss’s appearance, handling attack detection, and executing animations, sound effects, and other logic in response to events.  
 2. `Boss Scene Controller`: Manages the logic of the entire boss scene as a singleton, controlling the creation, destruction, and transitions of bosses, among other operations.  
+
+#### Additional Components  
+
+1. `Health Bar`, `Info Nameplate`, and Other Boss Info Components: Independent rendering information components with predefined styles, updated by actively calling methods to pass data changes for display.  
+2. `Dialog System` + `Dialog Character` + `Dialog Balloon` / `Dialog Box`: An independent dialogue system for creating and managing dialogue components, enabling dialogue presentation by adding characters and balloons or dialog boxes.  
 
 ## Detailed Explanation  
 
@@ -78,5 +83,6 @@ This structure is similar to the current `boss_system`, but with the following d
 ## Considerations  
 
 1. The dialogue system’s logic will be detached from the boss system and needs to be implemented separately, as it is unrelated to boss logic and should be a standalone, directly callable system.  
-2. Spell card practice may require significant manual definition logic, necessitating tools to simplify the process.  
-3. The increased complexity of the boss scene system may introduce debugging challenges, and the added logical complexity could potentially lead to performance issues.  
+2. UI information components now require passive updates instead of autonomously fetching data, so parameter update calls must be carefully managed when used independently.  
+3. Spell card practice may require significant manual definition logic, necessitating tools to simplify the process.  
+4. The increased complexity of the boss scene system may introduce debugging challenges, and the added logical complexity could potentially lead to performance issues.  
