@@ -1,6 +1,6 @@
 # Design Draft: Boss Scene System  
 
-[Chinese Version](../zh/Boss%20Scene%20System.md)  
+[中文版](../zh/Boss场景系统.md)  
 
 ## Background  
 
